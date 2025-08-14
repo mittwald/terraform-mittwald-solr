@@ -1,4 +1,4 @@
-# mStudio OpenSearch module
+# mStudio Solr module
 
 This Terraform module can be used to provision Solr instances on the mittwald mStudio.
 
