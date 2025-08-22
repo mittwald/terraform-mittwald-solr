@@ -14,7 +14,7 @@ module "solr" {
 }
 
 module "solr_typo3" {
-  source = "mittwald/solr/mittwald/modules/typo3"
+  source = "mittwald/solr/mittwald//modules/typo3"
 
   solr_stack_id = module.solr.stack_id
   solr_container_id = module.solr.container_id
