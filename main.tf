@@ -2,7 +2,7 @@ terraform {
   required_providers {
     mittwald = {
       source = "mittwald/mittwald"
-      version = "~> 1.0"
+      version = "~> 1.4"
     }
   }
 }
@@ -41,6 +41,8 @@ resource "mittwald_container_stack" "solr" {
 
       environment = {
         "SOLR_HEAP" = var.solr_heap
+        "SOLR_CONFIG_LIB_ENABLED" = "true"
+        "SOLR_MODULES" = "scripting,analytics,analysis-extras,langid,clustering,extraction"
       }
 
       volumes = [
