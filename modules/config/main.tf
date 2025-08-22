@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    mittwald = {
+      source = "mittwald/mittwald"
+      version = "~> 1.4"
+    }
+  }
+}
+
 resource "mittwald_remote_file" "solrconfig" {
   stack_id = var.solr_stack_id
   container_id = var.solr_container_id

@@ -2,7 +2,7 @@ terraform {
   required_providers {
     mittwald = {
       source = "mittwald/mittwald"
-      version = "1.3.0"
+      version = "~> 1.4"
     }
 
     http = {
