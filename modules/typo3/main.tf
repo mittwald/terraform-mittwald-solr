@@ -24,11 +24,13 @@ locals {
     "currency.xml",
     "elevate.xml"
   ])
+
+  ref = var.typo3_solr_version == "main" ? "refs/heads/main" : "refs/tags/${var.typo3_solr_version}"
 }
 
 data "http" "typo3_solr_files" {
   for_each = local.download_files
-  url = "https://raw.githubusercontent.com/TYPO3-Solr/ext-solr/refs/heads/${var.typo3_solr_version}/Resources/Private/Solr/configsets/ext_solr_13_0_0/conf/${each.value}"
+  url = "https://raw.githubusercontent.com/TYPO3-Solr/ext-solr/${local.ref}/Resources/Private/Solr/configsets/ext_solr_13_0_0/conf/${each.value}"
 }
 
 resource "mittwald_remote_file" "typo3_solr_files" {
@@ -55,6 +57,6 @@ resource "mittwald_remote_file" "typo3_solr_plugin" {
   stack_id = var.solr_stack_id
   container_id = var.solr_container_id
 
-  contents_from_url = "https://github.com/TYPO3-Solr/ext-solr/raw/refs/heads/${var.typo3_solr_version}/Resources/Private/Solr/typo3lib/solr-typo3-plugin-${local.plugin_version}.jar"
+  contents_from_url = "https://github.com/TYPO3-Solr/ext-solr/raw/refs/${local.ref}/Resources/Private/Solr/typo3lib/solr-typo3-plugin-${local.plugin_version}.jar"
   path = "/var/solr/data/${var.solr_core_name}/lib/solr-typo3-plugin-${local.plugin_version}.jar"
 }
