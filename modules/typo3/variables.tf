@@ -32,3 +32,18 @@ variable "typo3_solr_plugin_version" {
   description = "Version of the TYPO3 Solr plugin to use. Note: This should match the plugin version shipped with the EXT:solr version."
   default     = "6.0.0"
 }
+
+variable "ssh_user" {
+  type        = string
+  description = "SSH user for accessing the server; when omitted, this will default to the logged-in mStudio user"
+  nullable    = true
+  default     = null
+}
+
+variable "ssh_private_key" {
+  type        = string
+  description = "SSH private key for accessing the server; when omitted, this will default to ~/.ssh/id_rsa. Important: This variable should contain the actual private key contents, not the path to the key file. Use the file function to load the key contents from a file."
+  nullable    = true
+  default     = null
+  sensitive   = true
+}

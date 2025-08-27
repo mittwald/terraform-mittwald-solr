@@ -38,6 +38,9 @@ resource "mittwald_remote_file" "typo3_solr_files" {
   container_id = var.solr_container_id
   for_each     = local.download_files
 
+  ssh_user        = var.ssh_user
+  ssh_private_key = var.ssh_private_key
+
   contents = data.http.typo3_solr_files[each.key].response_body
   path     = "/var/solr/data/${var.solr_core_name}/conf/${each.value}"
 }
@@ -45,6 +48,9 @@ resource "mittwald_remote_file" "typo3_solr_files" {
 resource "mittwald_remote_file" "core_properties" {
   stack_id     = var.solr_stack_id
   container_id = var.solr_container_id
+
+  ssh_user        = var.ssh_user
+  ssh_private_key = var.ssh_private_key
 
   contents = <<EOT
 name=${var.solr_core_name}
@@ -56,6 +62,9 @@ EOT
 resource "mittwald_remote_file" "typo3_solr_plugin" {
   stack_id     = var.solr_stack_id
   container_id = var.solr_container_id
+
+  ssh_user        = var.ssh_user
+  ssh_private_key = var.ssh_private_key
 
   contents_from_url = "https://github.com/TYPO3-Solr/ext-solr/raw/${local.ref}/Resources/Private/Solr/typo3lib/solr-typo3-plugin-${local.plugin_version}.jar"
   path              = "/var/solr/data/${var.solr_core_name}/lib/solr-typo3-plugin-${local.plugin_version}.jar"
