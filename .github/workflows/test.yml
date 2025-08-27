@@ -7,9 +7,9 @@ on:
     branches: [ master ]
 
 jobs:
-  terraform-test:
+  terraform-format:
+    name: Check formatting
     runs-on: ubuntu-latest
-    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -22,15 +22,34 @@ jobs:
     - name: Terraform Format Check
       run: terraform fmt -check -recursive
 
+  terraform-test:
+    name: Run integration tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module_dir: [".", "modules/typo3"]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "~1.0"
+
     - name: Terraform Init
       run: terraform init
+      working-directory: ${{ matrix.module_dir }}
       env:
         MITTWALD_API_TOKEN: ${{ secrets.MITTWALD_API_TOKEN }}
 
     - name: Terraform Validate
       run: terraform validate
+      working-directory: ${{ matrix.module_dir }}
 
     - name: Terraform Test
       run: terraform test
+      working-directory: ${{ matrix.module_dir }}
       env:
         MITTWALD_API_TOKEN: ${{ secrets.MITTWALD_API_TOKEN }}
